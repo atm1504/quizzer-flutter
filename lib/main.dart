@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'question.dart';
 
 void main() => runApp(Quizzler());
 
@@ -7,6 +8,13 @@ class Quizzler extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(30.0),
+          child: AppBar(
+            title: Text('Quizzer'),
+            backgroundColor: Colors.brown[800],
+          ),
+        ),
         backgroundColor: Colors.grey.shade900,
         body: SafeArea(
           child: Padding(
@@ -26,20 +34,20 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
-  List<String> questions = [
-    'You can lead a cow down stairs but not up stairs.',
-    'Approximately one quarter of human bones are in the feet.',
-    'A slug\'s blood is green.'
+
+  List<Question> questionBank = [
+    Question('You can lead a cow down stairs but not up stairs.', false),
+    Question('Approximately one quarter of human bones are in the feet.', true),
+    Question('A slug\'s blood is green.', true),
   ];
-  List<bool> answers = [
-    false,
-    true,
-    true,
-  ];
+
   int questionNumber = 0;
 
+  Question q1 =
+      Question('You can lead a cow down stairs but not up stairs.', false);
+
   void increaseQuestionNumber() {
-    if (questionNumber < 2) {
+    if (questionNumber < questionBank.length - 1) {
       questionNumber += 1;
     } else {
       questionNumber = 0;
@@ -48,7 +56,7 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void updateScoreKeeper(bool response) {
-    if (answers[questionNumber] == response) {
+    if (questionBank[questionNumber].questionAnswer == response) {
       scoreKeeper.add(Icon(
         Icons.check,
         color: Colors.green,
@@ -72,13 +80,26 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Center(
-              child: Text(
-                questions[questionNumber],
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.white,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Q: ' + (questionNumber + 1).toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    questionBank[questionNumber].questionText,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
