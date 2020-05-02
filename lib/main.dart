@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'question.dart';
+import 'quiz_brain.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() => runApp(Quizzler());
 
@@ -35,28 +37,17 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
-  List<Question> questionBank = [
-    Question('You can lead a cow down stairs but not up stairs.', false),
-    Question('Approximately one quarter of human bones are in the feet.', true),
-    Question('A slug\'s blood is green.', true),
-  ];
-
-  int questionNumber = 0;
-
-  Question q1 =
-      Question('You can lead a cow down stairs but not up stairs.', false);
-
   void increaseQuestionNumber() {
-    if (questionNumber < questionBank.length - 1) {
-      questionNumber += 1;
+    if (quizBrain.canBeIncreased() == true) {
+      quizBrain.increaseQuestionNumber();
     } else {
-      questionNumber = 0;
+      quizBrain.reset();
       scoreKeeper = [];
     }
   }
 
   void updateScoreKeeper(bool response) {
-    if (questionBank[questionNumber].questionAnswer == response) {
+    if (quizBrain.isAnswerCorrect(response)) {
       scoreKeeper.add(Icon(
         Icons.check,
         color: Colors.green,
@@ -84,7 +75,7 @@ class _QuizPageState extends State<QuizPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Q: ' + (questionNumber + 1).toString(),
+                    'Q: ' + (quizBrain.getCurrentQuestionNumber()).toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 25.0,
@@ -92,7 +83,7 @@ class _QuizPageState extends State<QuizPage> {
                     ),
                   ),
                   Text(
-                    questionBank[questionNumber].questionText,
+                    quizBrain.getQuestionText(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 25.0,
