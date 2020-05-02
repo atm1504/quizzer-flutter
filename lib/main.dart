@@ -37,10 +37,18 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
+  String result = "";
+
   void increaseQuestionNumber() {
     if (quizBrain.canBeIncreased() == true) {
       quizBrain.increaseQuestionNumber();
     } else {
+      if (quizBrain.wonTheGame() == true) {
+        result = "Hurrah! U won the game!!";
+      } else {
+        result = "Sorry! U lost the game!!";
+      }
+      _showDialog();
       quizBrain.reset();
       scoreKeeper = [];
     }
@@ -58,6 +66,29 @@ class _QuizPageState extends State<QuizPage> {
         color: Colors.red,
       ));
     }
+  }
+
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(result),
+          content: new Text("Thank You! for playing the game :)"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Play Again"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

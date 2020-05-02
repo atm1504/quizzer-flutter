@@ -2,6 +2,9 @@ import 'question.dart';
 
 class QuizBrain {
   int _questionNumber = 0;
+  int _correctAnswers = 0;
+  int _wrongAnswers = 0;
+
   List<Question> _questionBank = [
     Question('Some cats are actually allergic to humans', true),
     Question('You can lead a cow down stairs but not up stairs.', false),
@@ -39,8 +42,10 @@ class QuizBrain {
 
   bool isAnswerCorrect(bool answer) {
     if (_questionBank[_questionNumber].questionAnswer == answer) {
+      _correctAnswers += 1;
       return true;
     } else {
+      _wrongAnswers += 1;
       return false;
     }
   }
@@ -51,6 +56,14 @@ class QuizBrain {
 
   bool canBeIncreased() {
     if (_questionNumber < _questionBank.length - 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool wonTheGame() {
+    if (_correctAnswers >= _wrongAnswers) {
       return true;
     } else {
       return false;
