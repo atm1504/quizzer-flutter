@@ -11,7 +11,7 @@ class Quizzler extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(30.0),
+          preferredSize: Size.fromHeight(40.0),
           child: AppBar(
             title: Text('Quizzer'),
             backgroundColor: Colors.brown[800],
@@ -141,6 +141,9 @@ class _QuizPageState extends State<QuizPage> {
         Row(
           children: scoreKeeper,
         ),
+        SizedBox(
+          height: 10,
+        )
       ],
     );
   }
